@@ -58,11 +58,18 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 int timer0_counter = 0;
 int timer0_flag = 0;
+int timer1_counter = 0;
+int timer1_flag = 0;
 int TIMER_CYCLE = 10;
 
 void setTimer0(int duration) {
     timer0_counter = duration / TIMER_CYCLE;
     timer0_flag = 0;
+}
+
+void setTimer1(int duration) {
+    timer1_counter = duration / TIMER_CYCLE;
+    timer1_flag = 0;
 }
 
 void timer_run() {
@@ -71,6 +78,12 @@ void timer_run() {
         if (timer0_counter == 0)
             timer0_flag = 1;
     }
+
+    if (timer1_counter > 0) {
+            timer1_counter--;
+            if (timer1_counter == 0)
+                timer1_flag = 1;
+        }
 }
 
 uint8_t table[10] = {
@@ -176,6 +189,25 @@ void updateLEDMatrix(int index) {
 
 
     switch (index) {
+/*
+    	 case 0:
+        	HAL_GPIO_WritePin(GPIOA, row_pins[2], RESET);
+        	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[index] << 8);
+            break;
+        case 1:
+        	HAL_GPIO_WritePin(GPIOA, row_pins[3], RESET);
+        	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[index] << 8);
+            break;
+        case 2:
+        	HAL_GPIO_WritePin(GPIOA, row_pins[4], RESET);
+        	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[index] << 8);
+            break;
+        case 3:
+        	HAL_GPIO_WritePin(GPIOA, row_pins[5], RESET);
+        	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[index] << 8);
+            break;
+
+    */
         case 0:
         	HAL_GPIO_WritePin(GPIOA, row_pins[0], RESET);
         	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[index] << 8);
@@ -256,6 +288,7 @@ void updateLEDMatrix(int index) {
         	HAL_GPIO_WritePin(GPIOA, row_pins[7], RESET);
         	GPIOB->ODR = (GPIOB->ODR & ~0xFF00) | (matrix_buffer[3] << 8);
             break;
+
         default:
             break;
     }
@@ -313,7 +346,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer0(10);
+  setTimer0(50);
+  setTimer1(10);
   while (1)
   {
 		if(timer0_flag){
@@ -326,14 +360,18 @@ int main(void)
 			 }
 			 else index_led=0;
 
+
+			setTimer0(50);
+		}
+
+		if(timer1_flag){
 			if(index_led_matrix<19){
 				index_led_matrix++;
 			} else {
 				index_led_matrix=0;
 			}
 			updateLEDMatrix(index_led_matrix);
-			setTimer0(10);
-
+			setTimer1(10);
 		}
 
 	    if (second >= 60) {

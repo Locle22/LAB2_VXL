@@ -463,8 +463,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  setTimer0(1000);
- 80003d2:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+  setTimer0(500);
+ 80003d2:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  80003d6:	f7ff feb9 	bl	800014c <setTimer0>
   while (1)
   {
@@ -807,8 +807,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
  80005c0:	3301      	adds	r3, #1
  80005c2:	4a21      	ldr	r2, [pc, #132]	; (8000648 <HAL_TIM_PeriodElapsedCallback+0xa0>)
  80005c4:	6013      	str	r3, [r2, #0]
-		setTimer0(1000);
- 80005c6:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+		setTimer0(500);
+ 80005c6:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  80005ca:	f7ff fdbf 	bl	800014c <setTimer0>
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
  80005ce:	2110      	movs	r1, #16

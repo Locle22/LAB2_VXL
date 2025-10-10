@@ -192,7 +192,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  setTimer0(1000);
+  setTimer0(500);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -328,7 +328,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timer_run();
 	if(timer0_flag){
 		second++;
-		setTimer0(1000);
+		setTimer0(500);
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		if(index_led<3){

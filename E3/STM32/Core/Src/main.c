@@ -159,20 +159,10 @@ HAL_TIM_Base_Start_IT(&htim2);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int onesec=0;
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(flag){
-		  flag=0;
-		  onesec++;
-		  if(onesec==2) {
-			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
-			  onesec=0;
-		  }
-	  }
-	  update7SEG(index_led);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -301,6 +291,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 int counter=50;
+int onesec=0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 	if(counter<=0){
@@ -310,8 +301,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		else index_led=0;
 	}
 
-
-
+	if(flag){
+	   flag=0;
+	   onesec++;
+	   if(onesec==2) {
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
+		onesec=0;
+        }
+     }
+	update7SEG(index_led);
 
 	counter--;
 }
